@@ -1,12 +1,24 @@
 import { Router } from "express";
+import { body } from "express-validator"
+import { createAccount } from "./handlers";
 
 const router = Router()
 
 //Authentication and Registry
-router.post('/auth/register', (req, res) => 
-{
-    console.log(req.body)
-})
+router.post('/auth/register', 
+    body('handle')
+        .notEmpty()
+        .withMessage("Handle can't be empty"),
+    body('name')
+        .notEmpty()
+        .withMessage("Name can't be empty"),
+    body('email')
+        .isEmail()
+        .withMessage("Invalid Email"),
+    body('password')
+        .isLength({min: 8})
+        .withMessage("Password too short - 8 characters minimum")
+    createAccount)
 
 router.get('/about', (req, res) => 
 {
