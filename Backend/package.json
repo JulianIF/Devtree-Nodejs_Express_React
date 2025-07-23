@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "@types/formidable": "^3.4.5",
+    "@types/uuid": "^10.0.0",
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.7.0",
     "colors": "^1.4.0",
@@ -10,7 +12,8 @@
     "formidable": "^3.5.4",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.16.3",
-    "slug": "^11.0.0"
+    "slug": "^11.0.0",
+    "uuid": "^11.1.0"
   },
   "name": "devtree-nodejsexpressreact",
   "version": "1.0.0",

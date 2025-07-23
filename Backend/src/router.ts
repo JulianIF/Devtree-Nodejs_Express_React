@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body } from "express-validator"
-import { createAccount, getUser, logIn, updateProfile } from "./handlers";
+import { createAccount, getUser, logIn, updateProfile, uploadImage } from "./handlers";
 import { handleInputErrors } from "./middleware/validation";
 import { authenticate } from "./middleware/auth";
 
@@ -41,6 +41,14 @@ router.post('/auth/logIn',
         .isLength({min: 8})
         .withMessage("Invalid Password"),
     handleInputErrors, logIn
+    )
+
+router.post('/user/image', 
+    body('handle')
+        .notEmpty()
+        .withMessage("Handle can't be empty"),
+    body('description'),
+    handleInputErrors, authenticate, uploadImage
     )
 
 export default router
