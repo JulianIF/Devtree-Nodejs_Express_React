@@ -125,7 +125,7 @@ export default function RegisterView()
 
             <input
                 type="submit"
-                className="bg-cyan-400 p-3 text-lg w-full uppercase text-slate-600 rounded-lg font-bold cursor-pointer"
+                className="bg-cyan-400 p-3 text-lg w-full uppercase text-black rounded-lg font-bold cursor-pointer"
                 value='Create Account'
             />  
             </form>

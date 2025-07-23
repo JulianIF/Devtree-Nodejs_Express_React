@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { body } from "express-validator"
-import { createAccount, logIn } from "./handlers";
+import { createAccount, getUser, logIn, updateProfile } from "./handlers";
 import { handleInputErrors } from "./middleware/validation";
+import { authenticate } from "./middleware/auth";
 
 const router = Router()
 
@@ -19,14 +20,18 @@ router.post('/auth/register',
     body('password')
         .isLength({min: 8})
         .withMessage("Password too short - 8 characters minimum"),
-    handleInputErrors,
-    createAccount
+    handleInputErrors, createAccount
 )
 
-router.post('/about', (req, res) => 
-{
-    res.send('Devtree - This is the About page')
-})
+router.get('/user', authenticate, getUser) 
+
+router.patch('/user', 
+    body('handle')
+        .notEmpty()
+        .withMessage("Handle can't be empty"),
+    body('description'),
+    handleInputErrors, authenticate, updateProfile
+    )
 
 router.post('/auth/logIn', 
     body('email')
@@ -35,8 +40,7 @@ router.post('/auth/logIn',
     body('password')
         .isLength({min: 8})
         .withMessage("Invalid Password"),
-    handleInputErrors,
-    logIn
+    handleInputErrors, logIn
     )
 
 export default router

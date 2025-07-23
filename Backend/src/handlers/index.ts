@@ -5,6 +5,7 @@ import User from "../models/User"
 import { checkPassword, hashPassword } from "../utils/auth"
 import { generateJWT } from "../utils/jwt"
 
+
 export const createAccount = async (req:Request, res:Response) =>
 {
     console.log(req.body)
@@ -32,7 +33,6 @@ export const createAccount = async (req:Request, res:Response) =>
     user.password = await hashPassword(password)
 
     await user.save()
-    console.log("HALP")
     res.status(201).send('Created User')
     
 }
@@ -64,4 +64,40 @@ export const logIn = async (req:Request, res:Response) =>
     const token = generateJWT({id: user._id})
 
     res.send(token)
+}
+
+export const getUser = async (req:Request, res:Response) =>
+{
+    res.json(req.user)
+}
+
+export const updateProfile = async (req:Request, res:Response) =>
+{
+    try 
+    {
+        const description:string = req.body.description
+
+        const handle = slug(req.body.handle, '')
+        const handleExists = await User.findOne({handle})
+
+        if(handleExists && handleExists.email !== req.user.email)
+        {
+            const error = new Error("Handle unavailable")
+
+            return res.status(409).json({error: error.message})
+        }
+        console.log(req.body)
+        //Update User
+        req.user.description = description
+        req.user.handle = handle
+
+        await req.user.save()
+        res.send("User Updated")
+    } 
+    catch (e) 
+    {
+        const error = new Error("Error")
+
+        return res.status(500).json({error: error.message})
+    }
 }
