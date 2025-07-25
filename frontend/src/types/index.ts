@@ -23,6 +23,8 @@ export type LogInForm = Pick <User, 'email'> &
 
 export type ProfileForm = Pick <User, 'handle' | 'description'>
 
+export type UserHandle = Pick <User, 'handle' | 'description'| 'name'| 'image'| 'links'>
+
 export type SocialNetwork =
 {
     id: number

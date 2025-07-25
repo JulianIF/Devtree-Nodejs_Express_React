@@ -10,8 +10,6 @@ export default function ProfileView() {
     const queryClient = useQueryClient()
     const data : User = queryClient.getQueryData(['user'])!
 
-    console.log(data)
-
     const{ register, handleSubmit, formState: { errors }} = useForm<ProfileForm>({defaultValues : {
         handle: data.handle,
         description: data.description

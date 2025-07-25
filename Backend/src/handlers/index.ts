@@ -11,7 +11,6 @@ import cloudinary from "../config/cloudinaryConfig"
 
 export const createAccount = async (req:Request, res:Response) =>
 {
-    console.log(req.body)
     const { email, password} = req.body
     const userExists = await User.findOne({email})
 
@@ -89,7 +88,6 @@ export const updateProfile = async (req:Request, res:Response) =>
 
             return res.status(409).json({error: error.message})
         }
-        console.log(req.body)
 
         //Update User
         req.user.description = description
@@ -132,6 +130,52 @@ export const uploadImage = async (req:Request, res:Response) =>
                 }
             ) 
         })
+    } 
+    catch (e) 
+    {
+        const error = new Error("Error")
+
+        return res.status(500).json({error: error.message})
+    }
+}
+
+export const getUserByHandle = async (req:Request, res:Response) =>
+{
+    try 
+    {
+        const {handle} = req.params
+        const user = await User.findOne({handle}).select('-_id -__v -email -password')
+
+        if(!user)
+        {
+            const error = new Error("User does not exist")
+
+            return res.status(404).json({error: error.message})
+        }
+        res.json(user)
+    } 
+    catch (e) 
+    {
+        const error = new Error("Error")
+
+        return res.status(500).json({error: error.message})
+    }
+}
+
+export const searchByHandle = async (req:Request, res:Response) =>
+{
+    try 
+    {
+        const {handle} = req.body
+        const userExists = await User.findOne({handle})
+
+        if(userExists)
+        {
+            const error = new Error(`The handle ${handle} already exists`)
+
+            return res.status(409).json({error: error.message})
+        }
+        res.send(`${handle} is available`)
     } 
     catch (e) 
     {

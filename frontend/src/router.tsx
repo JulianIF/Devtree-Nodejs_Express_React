@@ -5,6 +5,9 @@ import AuthLayout from "./layouts/AuthLayout"
 import AppLayout from "./layouts/AppLayout"
 import ProfileView from "./views/ProfileView"
 import LinkTreeView from "./views/LinkTreeView"
+import HandleView from "./views/HandleView"
+import NotFoundView from "./views/NotFoundVIew"
+import HomeView from "./views/HomeView"
 
 export default function Router()
 {
@@ -21,6 +24,15 @@ export default function Router()
                     <Route path="profile" element={<ProfileView/>}/>
                 
                 </Route>
+
+                <Route path="/:handle" element={<AuthLayout/>}>
+                    <Route index ={true} element={<HandleView/>}/>
+                </Route>
+
+                <Route path="/404" element={<AuthLayout/>}>
+                    <Route index ={true} element={<NotFoundView/>}/>
+                </Route>
+                <Route path="/" element={<HomeView/>}/>
             </Routes>
         </BrowserRouter>
     )
